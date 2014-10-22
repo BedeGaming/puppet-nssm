@@ -11,10 +11,10 @@ describe 'nssm' do
         }}
 
         it { should contain_class('nssm::params') }
-        it { should contain_class('nssm::install') }
+        it { expect { should contain_class('nssm::install') } }
 
-        it { should contain_download_file('nssm-download').with_url('http://nssm.cc/release/nssm-2.23.zip') }
-        it { should contain_exec('unzip-nssm').with_provider('powershell') }
+        it { expect { should contain_download_file('nssm-download').with_url('http://nssm.cc/release/nssm-2.23.zip') } }
+        it { expect { should contain_exec('unzip-nssm').with_provider('powershell') } }
       end
     end
   end
@@ -27,7 +27,7 @@ describe 'nssm' do
         :architecture    => 'amd64'
       }}
 
-      it { expect { should contain_exec('unzip-nssm') }.to raise_error(Puppet::Error, /Debian not supported/) }
+      it { expect { should contain_exec('unzip-nssm').to raise_error(Puppet::Error, /Debian not supported/) } }
     end
   end
 end
