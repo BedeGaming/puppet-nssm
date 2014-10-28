@@ -4,8 +4,13 @@ windows_service = Puppet::Type.type(:windows_service)
 
 describe windows_service do
 
-=begin
   describe "when running on windows platform"  do
+
+    let :facts do {
+      :operatingsystem => 'windows',
+      #:kernel => 'Linux'
+    } end
+
     it "should have a default provider inheriting from Puppet::Provider" do
       windows_service.defaultprovider.ancestors.should be_include(Puppet::Provider)
     end
@@ -14,11 +19,15 @@ describe windows_service do
     end
   end
   describe "when NOT running on windows platform"  do
+    let :facts do {
+      :operatingsystem => 'CentOS',
+      :kernel => 'Linux'
+    } end
+
     it "should NOT have a valid provider" do
       windows_service.new(:name => "foo").provider.class.ancestors.should_not be_include(Puppet::Provider)
     end
   end
-=end 
 
   describe "basic structure" do
     it "should be able to create an instance" do
