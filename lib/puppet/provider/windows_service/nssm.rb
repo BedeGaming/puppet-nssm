@@ -8,7 +8,7 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
   mk_resource_methods
 
   def exists?
-    @property_hash[:ensure] == :present
+    @property_hash[:ensure] == :present or @property_hash[:ensure] == 'present'
   end
 
   def create
