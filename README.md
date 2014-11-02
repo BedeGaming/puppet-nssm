@@ -13,11 +13,12 @@
 
 ##Overview
 
-Module to install the nssm (http://nssm.cc/)
+Module to install and manage use of the nssm (http://nssm.cc/)
 
 ##Module Description
 
 Installs nssm (the Non-Sucking Service Manager)
+
 
 ##Setup
 
@@ -60,17 +61,30 @@ The directory to install the package to
 #####`version`
 The version of nssm to install
 
+###Creating a windows_service using puppet
+
+```puppet
+  windows_service { 'service name':
+    command    => 'c:/dos/run',
+    start_in   => 'c:/doc/run',
+    parameters => ['-are','optional']
+  }
+```
+
 ##Reference
 
 ###Classes
 ####Pulic Classes
 * [`nssm`](#class-nssm): Guides the install of the nssm files from zip file
 
+###Types
+* [`windows_service`](#type-nssm): Type to create windows services
+
 ##Limitations
 
 This module is tested on the following platforms:
 
-* Windows 2008 R2
+* Windows 2012 R2
 
 It is tested with the OSS version of Puppet only.
 

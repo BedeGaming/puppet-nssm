@@ -7,19 +7,63 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
 
   mk_resource_methods
 
+  def initialize(value={})
+    super(value)
+    @property_flush = {}
+  end
+
   def exists?
-    @property_hash[:ensure] == :present or @property_hash[:ensure] == 'present'
+    @property_hash[:ensure] == :present
   end
 
   def create
-    Puppet.debug("#nssm installing #{resource[:name]} with command #{resource[:command]} and parameters #{resource[:parameters]}.")
-    nssm('install',resource[:name],resource[:command],resource[:parameters])
+    @property_flush[:ensure] = :present
   end
 
   def destroy
-    Puppet.debug("#nssm destroy the resource #{resource[:name]}!")
-    nssm('remove',resource[:name],'confirm')
+    @property_flush[:ensure] = :absent
   end 
+
+  def command=(value)
+    @property_flush[:command] = value
+  end
+
+  def start_in=(value)
+    @property_flush[:start_in] = value
+  end
+
+  def parameters=(value)
+    @property_flush[:parameters] = value
+  end
+
+  def set_create_service
+    if @property_flush[:ensure] == :absent
+      Puppet.debug("#nssm destroy the resource #{resource[:name]}!")
+      nssm('remove',resource[:name],'confirm')
+      return
+    end
+
+    if resource[:command].nil?
+      raise Puppet::Error, "Service cannot start if it doesn't have a command to run"
+    end
+
+    # If it doesn't already exist
+    if @property_hash[:ensure] == :absent
+      Puppet.debug("#nssm installing #{resource[:name]} with command #{resource[:command]} and parameters #{resource[:parameters]}.")
+      nssm('install',resource[:name],resource[:command],resource[:parameters])
+    else
+      Puppet.info("#nssm not able to update parameters yet")
+      Puppet.debug("#{resource[:name]} with command #{resource[:command]} and parameters #{resource[:parameters]}.")
+    end
+  end
+
+  def flush
+    set_create_service
+
+    # Collect the resources again once they've been changed (that way `puppet
+    # resource` will show the correct values after changes have been made).
+    @property_hash = self.class.get_service_properties(resource[:name])
+  end
 
   # returns all providers for all existing services and startup state
   def self.instances
