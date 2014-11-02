@@ -62,7 +62,7 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
 
     # Collect the resources again once they've been changed (that way `puppet
     # resource` will show the correct values after changes have been made).
-    @property_hash = self.class.get_service_properties(resource[:name])
+    @property_hash = self.class.get_service_properties_from_name(resource[:name])
   end
 
   # returns all providers for all existing services and startup state
@@ -71,6 +71,11 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
       service_properties = get_service_properties(svc)
       new(service_properties)
     end
+  end
+
+  def self.get_service_properties_from_name(service_name)
+    service = Win32::Service.services.find(&:service_name == service_name)
+    get_service_properties(service)
   end
 
   def self.get_service_properties(service)
