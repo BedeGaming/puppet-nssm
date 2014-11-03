@@ -44,15 +44,16 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
     end
 
     if resource[:command].nil?
-      raise Puppet::Error, "Service cannot start if it doesn't have a command to run"
+      raise Puppet::Error, "Service cannot start if it doesn't know which command to run"
     end
 
     # If it doesn't already exist
+    Puppet.debug("#nssm current properties #{@property_hash[:name]} with command #{@property_hash[:command]} and parameters #{@property_hash[:parameters]}.")
     if @property_hash[:ensure] == :absent
       Puppet.debug("#nssm installing #{resource[:name]} with command #{resource[:command]} and parameters #{resource[:parameters]}.")
       nssm('install',resource[:name],resource[:command],resource[:parameters])
     else
-      Puppet.info("#nssm not able to update parameters yet")
+      Puppet.debug("#nssm not able to update parameters yet")
       Puppet.debug("#{resource[:name]} with command #{resource[:command]} and parameters #{resource[:parameters]}.")
     end
   end
