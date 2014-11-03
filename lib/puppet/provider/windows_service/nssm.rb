@@ -84,6 +84,10 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
 
   def self.get_service_properties_from_name(name)
     svc = Win32::Service.services.find{ |svc| (svc.service_name == name) }
+    if svc.nil?
+      service_properties[:name] = name
+      service_properties[:ensure] = :absent
+    end
     get_service_properties(svc)
   end
 
