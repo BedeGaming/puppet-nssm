@@ -83,7 +83,7 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
 
   def self.get_service_properties_from_name(name)
     services = Win32::Service.services
-    Puppet.debug("Services type is #{services.class}"
+    Puppet.debug "Services type is #{services.class}"
     svc = services.find(&:service_name == name)
     get_service_properties(svc)
   end
