@@ -47,6 +47,7 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
   def set_create_service
     if @property_flush[:ensure] == :absent
       Puppet.debug("#nssm destroy the resource #{resource[:name]}!")
+      nssm('stop',resource[:name])
       nssm('remove',resource[:name],'confirm')
       return
     end
