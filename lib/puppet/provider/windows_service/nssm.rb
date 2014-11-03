@@ -36,6 +36,14 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
     @property_flush[:parameters] = value
   end
 
+  def self.prefetch(resources)
+    instances.each do |prov|
+      if resource = resources[prov.name]
+        resource.provider = prov
+      end
+    end
+  end
+
   def set_create_service
     if @property_flush[:ensure] == :absent
       Puppet.debug("#nssm destroy the resource #{resource[:name]}!")
@@ -48,7 +56,6 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
     end
 
     # If it doesn't already exist
-    Puppet.debug("#nssm current properties #{@property_hash[:name]} with command #{@property_hash[:command]} and parameters #{@property_hash[:parameters]}.")
     if @property_hash[:ensure] == :absent
       Puppet.debug("#nssm installing #{resource[:name]} with command #{resource[:command]} and parameters #{resource[:parameters]}.")
       nssm('install',resource[:name],resource[:command],resource[:parameters])
@@ -74,9 +81,11 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
     end
   end
 
-  def self.get_service_properties_from_name(service_name)
-    service = Win32::Service.services.find(&:service_name == service_name)
-    get_service_properties(service)
+  def self.get_service_properties_from_name(name)
+    services = Win32::Service.services
+    Puppet.debug("Services type is #{services.class}"
+    svc = services.find(&:service_name == name)
+    get_service_properties(svc)
   end
 
   def self.get_service_properties(service)
