@@ -25,7 +25,7 @@ EOT
   newproperty(:parameters, :array_matching => :all) do
     desc "Parameters to run the command with"
     def insync?(is)
-      is.sort == should.sort
+      is == should
     end
   end
 end
