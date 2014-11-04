@@ -85,7 +85,6 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
 
   def self.get_service_properties_from_name(name)
     service = Win32::Service.services.find{ |svc| (svc.service_name == name) }
-    Puppet.debug "1. Type of the service object is #{service.class}"
 
     service_properties = {}
     service_properties[:name] = name
@@ -95,7 +94,6 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
   end
 
   def self.get_service_properties(service)
-    Puppet.debug "Type of the service object is #{service.class}"
     service_properties = {}
     service_name = service.service_name
 
@@ -105,7 +103,6 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
       if service.binary_path_name.include? 'nssm'
         parameters = nssm('get', service_name,'AppParameters').to_s.gsub("\x00",'').gsub("\n",'').gsub("\r",'')
         start_in = nssm('get', service_name,'AppDirectory').to_s.gsub("\x00",'').gsub("\n",'').gsub("\r",'')
-        Puppet.debug("Got #{parameters.class} #{parameters.inspect} #{start_in}.")
         command = nssm('get', service_name,'Application').to_s.gsub("\x00",'').gsub("\n",'').gsub("\r",'')
       end
     rescue Puppet::ExecutionFailure => e
