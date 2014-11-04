@@ -101,9 +101,9 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
       status = service.current_state
       service_properties[:ensure] = :present
       if service.binary_path_name.include? 'nssm'
-        parameters = nssm('get', service_name,'AppParameters').to_s.gsub("\x00",'').gsub("\n",'').gsub("\r",'')
-        start_in = nssm('get', service_name,'AppDirectory').to_s.gsub("\x00",'').gsub("\n",'').gsub("\r",'')
-        command = nssm('get', service_name,'Application').to_s.gsub("\x00",'').gsub("\n",'').gsub("\r",'')
+        parameters = nssm('get', service_name,'AppParameters').to_s.gsub("\x00",'').chomp.split(' ')
+        start_in = nssm('get', service_name,'AppDirectory').to_s.gsub("\x00",'').chomp
+        command = nssm('get', service_name,'Application').to_s.gsub("\x00",'').chomp
       end
     rescue Puppet::ExecutionFailure => e
       service_properties[:ensure] = :absent
