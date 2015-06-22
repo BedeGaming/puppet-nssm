@@ -23,8 +23,8 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
   end
         
   def exists?
-    #get_service_status(resource[:name]) != nil
     @property_hash[:ensure] == :present
+    get_service_status(resource[:name]) != nil
   end
 
   def create
