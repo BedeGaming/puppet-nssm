@@ -15,7 +15,7 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
   def get_service_status
     begin
       service_status = nssm('status',resource[:name])
-    rescue Puppet::ExddecutionFailure => e
+    rescue Puppet::ExecutionFailure => e
       Puppet.debug("#get_service_status returned an error -> #{e.inspect}")
       return nil
     end
@@ -24,7 +24,7 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
         
   def exists?
     get_service_status(resource[:name]) != nil
-    @property_hash[:ensure] == :present
+    # @property_hash[:ensure] == :present
   end
 
   def create
