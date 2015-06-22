@@ -12,7 +12,18 @@ Puppet::Type.type(:windows_service).provide(:nssm) do
     @property_flush = {}
   end
 
+  def get_service_status
+    begin
+      service_status = nssm('status',resource[:name])
+    rescue Puppet::ExddecutionFailure => e
+      Puppet.debug("#get_service_status returned an error -> #{e.inspect}")
+      return nil
+    end
+    service_status
+  end
+        
   def exists?
+    get_service_status(resource[:name]) != nil
     @property_hash[:ensure] == :present
   end
 
