@@ -7,20 +7,35 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
 
   mk_resource_methods
 
-  def get_service_status(service_name = resource[:name])
+  def self.get_instance_properties(service)
+    instance_properties = {}
+
     begin
-      output = nssm('status',service_name)
+      service_status = nssm('status',service)
     rescue Puppet::ExecutionFailure => e
-      Puppet.debug("#get_service_status returned an error -> #{e.inspect}")
-      return nil
+      Puppet.debug "#self.get_instance_properties had an error -> #{e.inspect}"
+      return {}
     end
-    service_status = output.split("\n").sort
-    return nil if service_status.first =~ /Can't open service!/
-    service_status
+
+    instance_properties[:ensure]     = service_status == nil ? :absent : :present
+    instance_properties[:command]    = nssm('get',service,'Application')
+    instance_properties[:start_in]   = nssm('get',service,'AppDirectory')
+    instance_properties[:parameters] = nssm('get',service,'AppParameters')
   end
 
+
+  def self.instances
+    service_properties = get_instance_properties(resource[:name])
+    new(service_properties)
+  end
+
+
+
+
+
+
   def exists?
-    get_service_status(resource[:name]) != nil
+    @property_hash[:ensure] == :present
   end
 
   def create
@@ -30,30 +45,6 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
   def destroy
     nssm('remove',resource[:name])
   end 
-
-  def command
-    nssm('get',resource[:name],'Application')
-  end
-
-  def command=(value)
-    nssm('set',resource[:name],'Application',resource[:command])
-  end
-
-  def start_in
-    nssm('get',resource[:name],'AppDirectory')
-  end
-
-  def start_in=(value)
-    nssm('set',resource[:name],'AppDirectory',resource[:start_in])
-  end
-
-  def parameters
-    nssm('get',resource[:name],'AppParameters')
-  end
-
-  def parameters=(value)
-    nssm('set',resource[:name],'AppParameters',resource[:parameters])
-  end
 
 
 end
