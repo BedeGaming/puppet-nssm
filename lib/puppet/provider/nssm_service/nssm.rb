@@ -21,6 +21,8 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
     instance_properties[:command]    = nssm('get',service,'Application')
     instance_properties[:start_in]   = nssm('get',service,'AppDirectory')
     instance_properties[:parameters] = nssm('get',service,'AppParameters')
+
+    instance_properties
   end
 
 
