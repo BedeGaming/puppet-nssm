@@ -1,6 +1,6 @@
 include Puppet::Util
 
-Puppet::Type.newtype(:windows_service) do
+Puppet::Type.newtype(:nssm_service) do
   ensurable
 
 
