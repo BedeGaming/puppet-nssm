@@ -17,11 +17,11 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
       return {}
     end
 
-    instance_properties[:ensure]     = service_status == nil ? :absent : :present
+    instance_properties[:ensure]     = service_status != nil ? :present : :absent
     instance_properties[:command]    = nssm('get',service,'Application')
     instance_properties[:start_in]   = nssm('get',service,'AppDirectory')
     instance_properties[:parameters] = nssm('get',service,'AppParameters')
-    Puppet.debug "Service properties: #{iinstance_properties.inspect}"
+    Puppet.debug "Service properties: #{instance_properties.inspect}"
     instance_properties
   end
 
