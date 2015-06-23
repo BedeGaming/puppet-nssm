@@ -7,11 +7,11 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
 
   mk_resource_methods
 
-  def self.get_instance_properties(service)
+  def self.get_instance_properties
     instance_properties = {}
 
     begin
-      service_status = nssm('status',service)
+      service_status = nssm('status',resource[:name])
     rescue Puppet::ExecutionFailure => e
       Puppet.debug "#self.get_instance_properties had an error -> #{e.inspect}"
       return {}
@@ -27,7 +27,7 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
 
 
   def self.instances
-    service_properties = get_instance_properties(resource[:name])
+    service_properties = get_instance_properties
     new(service_properties)
   end
 
