@@ -44,7 +44,7 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
   end
 
   def start_in=(value)
-    nssm('set',resource[:name],'Application',resource[:start_in])
+    nssm('set',resource[:name],'AppDirectory',resource[:start_in])
   end
 
   def parameters
@@ -52,7 +52,7 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
   end
 
   def parameters=(value)
-    nssm('set',resource[:name],'Application',resource[:parameters])
+    nssm('set',resource[:name],'AppParameters',resource[:parameters])
   end
 
 
