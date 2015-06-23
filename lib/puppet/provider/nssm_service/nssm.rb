@@ -1,9 +1,9 @@
 Puppet::Type.type(:nssm_service).provide(:nssm) do
   desc "The non sucking windows service experience. Hopefully."
 
-  confine :operatingsystem => :windows
+  #confine :operatingsystem => :windows
 
-  commands :nssm => 'nssm', :powershell => 'powershell'
+  commands :nssm => 'nssm'
 
   mk_resource_methods
 
@@ -11,7 +11,7 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
     instance_properties = {}
 
     begin
-      service_status = nssm('status',resource[:name])
+      service_status = nssm('status','Consul')
     rescue Puppet::ExecutionFailure => e
       Puppet.debug "#self.get_instance_properties had an error -> #{e.inspect}"
       return {}
