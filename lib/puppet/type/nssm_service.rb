@@ -22,10 +22,7 @@ EOT
     desc "Which directory the service should start in"
   end
 
-  newproperty(:parameters, :array_matching => :all) do
+  newproperty(:parameters) do
     desc "Parameters to run the command with"
-    def insync?(is)
-      is == should
-    end
   end
 end
