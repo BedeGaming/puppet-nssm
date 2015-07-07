@@ -15,16 +15,16 @@
 #
 #
 class nssm (
-  $ensure      = $nssm::params::ensure
+  $ensure       = $nssm::params::ensure,
+  $archive_name = $nssm::params::archive_name,
+  $archive_url  = $nssm::params::archive_url,
+  $install_dir  = $nssm::params::install_dir,
 ) inherits nssm::params {
 
   if $::osfamily != 'windows' {
     fail("${::osfamily} not supported")
   }
 
-  package { 'nssm':
-    ensure   => $ensure,
-    provider => 'chocolatey'
-  }
+  contain '::nssm::install'
 
 }
