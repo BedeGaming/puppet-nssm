@@ -48,7 +48,7 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
   end
 
   def parameters
-    nssm('get',resource[:name],'AppParameters').to_s.gsub("\x00",'').chomp.split(' ')
+    nssm('get',resource[:name],'AppParameters').to_s.gsub("\x00",'').chomp
   end
 
   def parameters=(value)
