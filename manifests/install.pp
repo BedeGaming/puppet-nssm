@@ -10,7 +10,7 @@ class nssm::install {
     creates      => 'C:\\Windows\\Temp\\nssm-2.24',
   }
 
-  file { 'C:\\Windows\\system32\\nssm.exe':
+  file { 'C:\\Windows\\nssm.exe':
     ensure  => present,
     source  => 'C:\\Windows\\Temp\\nssm-2.24\\win64\\nssm.exe',
     require => Archive["C:\\Windows\\Temp\\${nssm::archive_name}"],
