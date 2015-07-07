@@ -32,7 +32,7 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
   end 
 
   def command
-    nssm('get',resource[:name],'Application')
+    nssm('get',resource[:name],'Application').to_s.gsub("\x00",'').chomp
   end
 
   def command=(value)
@@ -40,7 +40,7 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
   end
 
   def start_in
-    nssm('get',resource[:name],'AppDirectory')
+    nssm('get',resource[:name],'AppDirectory').to_s.gsub("\x00",'').chomp
   end
 
   def start_in=(value)
@@ -48,7 +48,7 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
   end
 
   def parameters
-    nssm('get',resource[:name],'AppParameters')
+    nssm('get',resource[:name],'AppParameters').to_s.gsub("\x00",'').chomp.split(' ')
   end
 
   def parameters=(value)
