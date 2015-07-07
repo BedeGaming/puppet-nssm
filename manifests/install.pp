@@ -1,6 +1,6 @@
 class nssm::install {
 
-  class { 'archive': }
+  include '::archive'
 
   file { $nssm::install_dir:
     ensure => directory,
