@@ -25,4 +25,8 @@ EOT
   newproperty(:parameters) do
     desc "Parameters to run the command with"
   end
+
+  newproperty(:dependencies) do
+    desc "Other services or service groups the service depends on"
+  end
 end
