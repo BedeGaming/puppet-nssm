@@ -25,4 +25,12 @@ EOT
   newproperty(:parameters) do
     desc "Parameters to run the command with"
   end
+
+  newproperty(:dependencies) do
+    desc "Other services or service groups the service depends on"
+  end
+
+  newproperty(:startuptype) do
+    desc "How the service should act on start up"
+  end
 end

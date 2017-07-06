@@ -1,4 +1,4 @@
-####Table of Contents
+#### Table of Contents
 
 1. [Overview](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
@@ -11,22 +11,22 @@
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
 
-##Overview
+## Overview
 
 Module to install and manage use of the nssm (http://nssm.cc/)
 
-##Module Description
+## Module Description
 
 Installs nssm (the Non-Sucking Service Manager)
 
 
-##Setup
+## Setup
 
-###What nssm affects
+### What nssm affects
 
 * Installs into NSSM into program files (files only)
 
-###Beginning with nssm
+### Beginning with nssm
 
 Install with defaults:
 
@@ -44,24 +44,24 @@ Install from custom url:
   }
 ```
 
-##Usage
+## Usage
 
-###Classes and Defined Types
+### Classes and Defined Types
 
-####Class: `nssm`
+#### Class: `nssm`
 One of the primary classes of the nssm module. This class will install the nssm binaries
 
 **Parameters within `nssm`:**
-#####`install_url`
+##### `install_url`
 The url to download the nssm package from
 
-#####`install_dir`
+##### `install_dir`
 The directory to install the package to
 
-#####`version`
+##### `version`
 The version of nssm to install
 
-###Creating a windows_service using puppet
+### Creating a windows_service using puppet
 
 ```puppet
   windows_service { 'service name':
@@ -71,16 +71,16 @@ The version of nssm to install
   }
 ```
 
-##Reference
+## Reference
 
-###Classes
-####Pulic Classes
+### Classes
+#### Pulic Classes
 * [`nssm`](#class-nssm): Guides the install of the nssm files from zip file
 
-###Types
+### Types
 * [`windows_service`](#type-nssm): Type to create windows services
 
-##Limitations
+## Limitations
 
 This module is tested on the following platforms:
 
@@ -88,8 +88,8 @@ This module is tested on the following platforms:
 
 It is tested with the OSS version of Puppet only.
 
-##Development
+## Development
 
-###Contributing
+### Contributing
 
 Please read CONTRIBUTING.md for full details on contributing to this project.
