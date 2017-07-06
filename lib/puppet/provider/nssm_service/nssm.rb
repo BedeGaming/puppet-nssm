@@ -55,5 +55,9 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
     nssm('set',resource[:name],'AppParameters',resource[:parameters])
   end
 
+  def dependencies=(value)
+    nssm('set',resource[:name],'DependOnService',resource[:dependencies])
+  end
+
 
 end
