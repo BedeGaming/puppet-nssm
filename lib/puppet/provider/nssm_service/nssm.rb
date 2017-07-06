@@ -59,5 +59,9 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
     nssm('set',resource[:name],'DependOnService',resource[:dependencies])
   end
 
+  def startuptype=(value)
+    nssm('set',resource[:name],'Start',resource[:startuptype])
+  end
+
 
 end
