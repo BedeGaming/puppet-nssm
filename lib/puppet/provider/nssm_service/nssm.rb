@@ -29,7 +29,7 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
 
   def destroy
     nssm('remove',resource[:name])
-  end 
+  end
 
   def command
     nssm('get',resource[:name],'Application').to_s.gsub("\x00",'').chomp
@@ -55,8 +55,16 @@ Puppet::Type.type(:nssm_service).provide(:nssm) do
     nssm('set',resource[:name],'AppParameters',resource[:parameters])
   end
 
+  def dependencies
+    nssm('set',resource[:name],'DependOnService').to_s.gsub("\x00",'').chomp
+  end
+
   def dependencies=(value)
     nssm('set',resource[:name],'DependOnService',resource[:dependencies])
+  end
+
+  def startuptype
+    nssm('set',resource[:name],'Start').to_s.gsub("\x00",'').chomp
   end
 
   def startuptype=(value)
